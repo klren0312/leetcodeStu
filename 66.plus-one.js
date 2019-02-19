@@ -37,15 +37,15 @@
  * @return {number[]}
  */
 var plusOne = function(digits) {
-  let e = 0
-  let first = digits[0]
-  if(digits[digits.length - 1] === 9) {
+  let e = 0 // 是否进 1 标志
+  let first = digits[0] // 存下第一个数
+  if(digits[digits.length - 1] === 9) { // 最后一位为 9, 进 1
     digits[digits.length - 1] = 0
     e = 1
-  } else {
+  } else { // 反之只是加 1
     digits[digits.length - 1] += 1
   }
-  if(e === 1) {
+  if(e === 1) { // 对于进 1 的循环处理
     for(let i = digits.length-2;i >= 0;i--) {
       if(e===1) {
         if(digits[i] === 9 ) {
@@ -54,15 +54,14 @@ var plusOne = function(digits) {
         } else {
           digits[i] += 1
           e = 0
+          break
         }     
       } else {
+        break
       }
     }
   }
-  if(e === 1 && digits.length === 1) {
-    digits = [1, 0]
-  }
-  if(digits[0] === 0 && first !== 0) {
+  if(digits[0] === 0 && first !== 0) { // 若原来第一个数不是0, 则前面加个1
     digits.unshift(1)
   }
   return digits
