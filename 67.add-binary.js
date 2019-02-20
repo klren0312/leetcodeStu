@@ -1,5 +1,5 @@
 /*
- * @lc app=leetcode.cn id=67 lang=javascript
+ * @lc app=leetcode.cn id=67 lenAng=javascript
  *
  * [67] 二进制求和
  *
@@ -32,23 +32,23 @@
  * @return {string}
  */
 var addBinary = function(a, b) {
-  let la = a.length
-  let lb = b.length
+  let lenA = a.length
+  let lenB = b.length
   let aArr = a.split('')
   let bArr = b.split('')
-  if(la > lb) {
-    for(let i = 0; i < la - lb; i++) {
+  if(lenA > lenB) {
+    for(let i = 0; i < lenA - lenB; i++) {
       bArr.unshift(0)
     }
   } 
-  else if(la < lb){
-    for(let i = 0; i < lb - la; i++) {
+  else if(lenA < lenB){
+    for(let i = 0; i < lenB - lenA; i++) {
       aArr.unshift(0)
     }
   }
   let c = 0 // 进 1 位
   let res = []
-  for(let i = Math.max(la, lb) - 1; i >= 0; i--) {
+  for(let i = Math.max(lenA, lenB) - 1; i >= 0; i--) {
     if (Number(aArr[i]) + Number(bArr[i]) === 2) {
       res[i] = 0 + c
       c = 1
