@@ -51,7 +51,11 @@ class Renderer {
       const dom = document.createElement(node.type)
       Object.keys(node).forEach(attr => {
         if (attr !== 'children') {
-          dom.setAttribute(attr, node[attr])
+          if (attr === 'content') {
+            dom.innerText = node.content
+          } else {
+            dom.setAttribute(attr, node[attr])
+          }
         }
       })
       if (node.hasOwnProperty('children')) {
