@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<script>
+const data = [{
+  id: 'node1',
+  type: 'div',
+  className: 'section',
+  children: [{
+    id: 'node2',
+    type: 'div',
+    className: 'text',
+    children: [{
+      id: 'node3',
+      type: 'span',
+      content: '说明文字',
+      onClick: () => {
+        console.log(123);
+      }
+    }, {
+      id: 'node4',
+      type: 'i',
+      className: 'icon-font-example'
+    }]
+  }]
+}, {
+  id: 'node5',
+  type: 'div',
+  className: 'section1',
+  children: [{
+    id: 'node6',
+    type: 'input',
+    className: 'custom-input'
+  }]
+}]
+
+class Renderer {
+  constructor(data) {
+    this.data = data
+  }
+
+  genDom(json) {
+    const root = document.createDocumentFragment('div')
+    json.forEach(node => {
+      const dom = document.createElement(node.type)
+      Object.keys(node).forEach(attr => {
+        if (attr !== 'children') {
+          dom.setAttribute(attr, node[attr])
+        }
+      })
+      if (node.hasOwnProperty('children')) {
+        dom.appendChild(this.genDom(node.children, dom))
+      }
+      root.append(dom)
+    })
+    return root
+  }
+
+  render() {
+    console.log(this.genDom(this.data))
+  }
+
+  moveNode(source, target) {
+    let obj = {}
+    const bom = (data, parentId) => {
+      data.forEach(node => {
+        obj[node.id] = {
+          ...node,
+          parentId: parentId
+        }
+        if (node.hasOwnProperty('children')) {
+          bom(node.children, node.id)
+        }
+      })
+    }
+    bom(data, '')
+    obj[source].parentId = obj[target].id
+
+    const arr = Object.keys(obj).map(id => obj[id])
+
+    const compose = (data) => {
+      data.forEach(item => {
+        delete item.children
+      })
+      this.treeObj = {}
+      let map = {}
+      data.forEach(item => {
+        map[item.id] = item
+      })
+      this.treeObj = map
+      let val = []
+      data.forEach(item => {
+        let parent = map[item.parentId]
+        if (parent) {
+          ;(parent.children || (parent.children = [])).push(item)
+        } else {
+          val.push(item)
+        }
+      })
+      return val
+    }
+    console.log(this.genDom(compose(arr)))
+  }
+}
+
+
+const r = new Renderer(data)
+
+r.render()
+
+r.moveNode('node2', 'node5')
+
+</script>
+</body>
+</html>
