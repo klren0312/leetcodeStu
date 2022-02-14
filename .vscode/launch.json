@@ -8,7 +8,7 @@
       "type": "node",
       "request": "launch",
       "name": "启动程序",
-      "program": "${workspaceFolder}/21.merge-two-sorted-lists.js",
+      "program": "${workspaceFolder}/145.Binary Tree Post Order Traversal.js",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
       ]
